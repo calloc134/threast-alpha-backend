@@ -1,12 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class TinyUserResDto {
+export class TinyHashtagResDto {
   @ApiProperty()
   cuid: string;
 
   @ApiProperty()
-  handle: string;
+  name: string;
 
-  @ApiProperty()
-  screen_name: string;
 }

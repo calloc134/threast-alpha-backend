@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class TinyUserResDto {
+export class LimitedUserResDto {
   @ApiProperty()
   cuid: string;
 
@@ -9,4 +9,14 @@ export class TinyUserResDto {
 
   @ApiProperty()
   screen_name: string;
+
+  @ApiProperty()
+  bio: string;
+
+  @ApiProperty()
+  created_at: Date;
+
+  @ApiProperty()
+  updated_at: Date;
+
 }
