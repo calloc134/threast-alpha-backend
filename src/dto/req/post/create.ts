@@ -16,13 +16,13 @@ export class CreatePostRequestDto {
   @ApiProperty({ required: true })
   body: string;
 
-  @IsBoolean()
   @IsNotEmpty()
+  @IsBoolean()
   @ApiProperty({ required: true })
   private: boolean;
 
-  @IsString({ each: true })
   @IsNotEmpty()
+  @IsString({ each: true })
   @ApiProperty({ required: true })
   hashtags: string[];
 }
