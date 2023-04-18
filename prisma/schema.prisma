@@ -22,7 +22,7 @@ model User {
   created_at     DateTime      @default(now())
   updated_at     DateTime      @updatedAt
   handle         String        @unique
-  screenName     String
+  screen_name    String
   bio            String        @default("")
   hidden_commnet String        @default("")
   profile_image  String
@@ -31,13 +31,17 @@ model User {
   posts          Post[]
   post_likes     PostLike[]
   post_comments  PostComment[]
+  followings     Follow[]      @relation("src_user_cuid")
+  followed_by    Follow[]      @relation("dst_user_cuid")
 }
 
 model Follow {
   cuid          String   @id @default(cuid())
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
+  src_user      User     @relation("src_user_cuid", fields: [src_user_cuid], references: [cuid], onDelete: Cascade)
   src_user_cuid String
+  dst_user      User     @relation("dst_user_cuid", fields: [dst_user_cuid], references: [cuid], onDelete: Cascade)
   dst_user_cuid String
 
   @@unique([src_user_cuid, dst_user_cuid])
@@ -51,7 +55,7 @@ model Post {
   body       String
   private    Boolean  @default(false)
 
-  src_user      User   @relation(fields: [src_user_cuid], references: [cuid])
+  src_user      User   @relation(fields: [src_user_cuid], references: [cuid], onDelete: Cascade)
   src_user_cuid String
 
   likes    PostLike[]
@@ -76,9 +80,9 @@ model PostLike {
   updated_at DateTime @updatedAt
 
   src_user_cuid String
-  src_user      User   @relation(fields: [src_user_cuid], references: [cuid])
+  src_user      User   @relation(fields: [src_user_cuid], references: [cuid], onDelete: Cascade)
 
-  dst_post      Post   @relation(fields: [dst_post_cuid], references: [cuid])
+  dst_post      Post   @relation(fields: [dst_post_cuid], references: [cuid], onDelete: Cascade)
   dst_post_cuid String
 
   @@unique([src_user_cuid, dst_post_cuid])
@@ -90,9 +94,9 @@ model PostComment {
   updated_at DateTime @updatedAt
   content    String
 
-  src_user      User   @relation(fields: [src_user_cuid], references: [cuid])
+  src_user      User   @relation(fields: [src_user_cuid], references: [cuid], onDelete: Cascade)
   src_user_cuid String
 
-  dst_post      Post   @relation(fields: [dst_post_cuid], references: [cuid])
+  dst_post      Post   @relation(fields: [dst_post_cuid], references: [cuid], onDelete: Cascade)
   dst_post_cuid String
 }
