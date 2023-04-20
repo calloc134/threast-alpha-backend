@@ -10,6 +10,8 @@ export class NonAuthAuthService {
 
   async signup(handle: string, screen_name: string, password: string): Promise<TinyUserResDto> {
       
+    // ユーザを作成、既に存在している時は例外になるはず
+    // profile_imageはデフォルトで空文字列 ここの扱いをどうしようか悩む
       let user = await this.prisma.user.create({
         data: {
           handle,
@@ -30,9 +32,12 @@ export class NonAuthAuthService {
       }
     })
 
+    // パスワードが一致するかargon2で検証
     if (await verify(user.password, password)) {
+      // パスワードが一致したらユーザ情報を返す
       return new TinyUserResDto(user)
     } else {
+      // パスワードが一致しなかったら例外を投げる
       throw new PasswordMismatchException()
     }
   }

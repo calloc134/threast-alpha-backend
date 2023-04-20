@@ -30,14 +30,20 @@ export class NonAuthAuthController {
     @Body() body: LoginFormReqDto,
     @Session() session: SecureSession
   ): Promise<TinyUserResDto> {
+    // セッションは引数で受け取り、サービスにセッション自体は渡さないように
 
     let {handle, password} = body
-    
+
+    // ログイン処理の可否を判断
     let res_user_cuid = await this.authService.login(handle, password)
+
+    // レスポンスのcuidがnullでなければログイン成功
     if (res_user_cuid !== null) {
+      // セッションにcuidを保存
       session.set("user_cuid", res_user_cuid)
       return res_user_cuid
     } else {
+      // レスポンスのcuidがnullならログイン失敗、例外を投げる
       throw new PasswordMismatchException();
     }
   }
