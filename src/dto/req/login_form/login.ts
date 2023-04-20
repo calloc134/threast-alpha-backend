@@ -5,7 +5,7 @@ export class LoginFormReqDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({ required: true })
-  screenName: string;
+  handle: string;
 
   @IsNotEmpty()
   @IsString()

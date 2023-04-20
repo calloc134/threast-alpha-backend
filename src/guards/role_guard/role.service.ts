@@ -13,8 +13,6 @@ export class RoleGuardService {
       throw new RolePermissionException();
     }
 
-    console.log("user_cuid: " + user_cuid);
-
     const user = await this.prisma.user.findUnique({
       where: { cuid: user_cuid },
       select: { role: true },
