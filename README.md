@@ -3,6 +3,20 @@
 このリポジトリは、threast-ALphaのバックエンドのソースコードを管理するリポジトリである。
 このプログラムの詳しい設計は、[threast-ALpha-document](https://github.com/calloc134/threast-ALpha-document)を参照すること。
 
+## 利用技術
+| 役割 | 選定技術 |
+| --- | --- |
+| 言語 | TypeScript |
+| フレームワーク | NestJS |
+| バックエンド | fastify |
+| データベース | PostgreSQL |
+| ORM | Prisma |
+| バリデーション | class-validator |
+| シリアライズ | class-transformer |
+| パスワードハッシュ技術 | argon2 |
+| ドキュメント生成 | Swagger |
+| セッション管理 | fastify-secure-session |
+
 ## 機能
 
 実装したものについてはチェック
