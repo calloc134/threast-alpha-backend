@@ -8,7 +8,7 @@ import { ApiBadRequestResponse, ApiOkResponse } from "@nestjs/swagger";
 import { TemplateException } from "@dto/types/exception";
 import { CreateUserReqDto } from "@dto/req/user/create";
 
-@Controller("api")
+@Controller("api/auth")
 export class NonAuthAuthController {
 
   constructor(private readonly authService: NonAuthAuthService) {}

@@ -5,7 +5,9 @@ import { applyDecorators, UseGuards } from "@nestjs/common";
 
 export const SetSessionGuard = () => {
   return applyDecorators(
+      // SessionGuardをガードとして適用
       UseGuards(SessionGuard),
+      // swaggerドキュメント追加
       ApiUnauthorizedResponse({ type: TemplateException }),
       ApiCookieAuth("SESSIONID")
   )

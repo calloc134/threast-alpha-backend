@@ -27,9 +27,10 @@ export class NonAuthAuthService {
   async login(handle: string, password: string): Promise<TinyUserResDto> {
 
     let user = await this.prisma.user.findUniqueOrThrow({
+      // handleに相当するユーザを取得 handleはユニークなのでこれでいい
       where: {
         handle
-      }
+      },
     })
 
     // パスワードが一致するかargon2で検証
