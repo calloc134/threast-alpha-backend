@@ -17,7 +17,10 @@ export class NonAuthAuthService {
           handle,
           screen_name,
           password: await hash(password),
-          profile_image: ""
+          profile_image: "",
+          bio: "",
+          hidden_comment: "",
+          role: "USER",
         }
       })
   

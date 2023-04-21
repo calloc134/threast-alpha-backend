@@ -40,7 +40,7 @@ export class NonAuthAuthController {
     // レスポンスのcuidがnullでなければログイン成功
     if (res_user_cuid !== null) {
       // セッションにcuidを保存
-      session.set("user_cuid", res_user_cuid)
+      session.set("user_cuid", res_user_cuid.cuid)
       return res_user_cuid
     } else {
       // レスポンスのcuidがnullならログイン失敗、例外を投げる

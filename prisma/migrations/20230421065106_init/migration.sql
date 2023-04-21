@@ -1,0 +1,10 @@
+-- AlterTable
+ALTER TABLE "HashTag" ALTER COLUMN "description" DROP DEFAULT;
+
+-- AlterTable
+ALTER TABLE "Post" ALTER COLUMN "private" DROP DEFAULT;
+
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "bio" DROP DEFAULT,
+ALTER COLUMN "hidden_commnet" DROP DEFAULT,
+ALTER COLUMN "role" DROP DEFAULT;

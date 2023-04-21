@@ -15,5 +15,5 @@ export class TinyUserResDto {
 
   constructor(partial: Partial<TinyUserResDto>) {
     Object.assign(this, partial);
-}
+  }
 }
