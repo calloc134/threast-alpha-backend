@@ -50,7 +50,9 @@ export class AuthMyProfileService {
       },
     });
 
-    return new StandardUserResDto(result);
+    return {
+      success: true,
+    };
   }
 
   async updateMyPassword(

@@ -19,6 +19,7 @@ import { UpdateUserPasswordReqDto } from '@dto/req/user_password/update';
 import { PaginatedResDto, PaginatedResDtoTinyPost, PaginatedResDtoTinyUser } from '@dto/res/wrapper/paginatedResDto';
 import { TinyUserResDto } from '@dto/res/user/tiny';
 import { PaginatedQueryReqDto } from '@dto/req/query/queryReqDto';
+import { SuccessResDto } from '@dto/types/success';
 
 @Controller('api/users')
 @SetSessionGuard()
@@ -44,7 +45,7 @@ export class AuthMyProfileController {
   }
 
   @Delete('me')
-  @ApiOkResponse({ type: StandardUserResDto })
+  @ApiOkResponse({ type: SuccessResDto })
   async deleteMe(@Session() session: SecureSession) {
     return await this.authMyProfileService.deleteMe(session.user_cuid);
   }

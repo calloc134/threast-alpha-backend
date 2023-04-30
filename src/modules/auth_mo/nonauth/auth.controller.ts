@@ -7,6 +7,7 @@ import { TinyUserResDto } from "@dto/res/user/tiny";
 import { ApiBadRequestResponse, ApiOkResponse } from "@nestjs/swagger";
 import { TemplateException } from "@dto/types/exception";
 import { CreateUserReqDto } from "@dto/req/user/create";
+import { SuccessResDto } from "@dto/types/success";
 
 @Controller("api/auth")
 export class NonAuthAuthController {
@@ -24,12 +25,12 @@ export class NonAuthAuthController {
 
   @HttpCode(200)
   @Post("login")
-  @ApiOkResponse({type: TinyUserResDto})
+  @ApiOkResponse({type: SuccessResDto})
   @ApiBadRequestResponse({type: TemplateException})
   async login(
     @Body() body: LoginFormReqDto,
     @Session() session: SecureSession
-  ): Promise<TinyUserResDto> {
+  ) {
     // セッションは引数で受け取り、サービスにセッション自体は渡さないように
 
     let {handle, password} = body
@@ -41,7 +42,9 @@ export class NonAuthAuthController {
     if (res_user_cuid !== null) {
       // セッションにcuidを保存
       session.set("user_cuid", res_user_cuid.cuid)
-      return res_user_cuid
+      return {
+        success: true,
+      }
     } else {
       // レスポンスのcuidがnullならログイン失敗、例外を投げる
       throw new PasswordMismatchException();

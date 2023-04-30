@@ -22,7 +22,7 @@ export class PaginatedResDto {
 
 export class PaginatedResDtoTinyUser extends PaginatedResDto {
   @Expose()
-  @ApiProperty({ type: TinyUserResDto, isArray: true })
+  @ApiProperty({ type: [TinyUserResDto]})
   data: TinyUserResDto[];
 
   constructor(partial: Partial<PaginatedResDtoTinyUser>) {
@@ -33,7 +33,7 @@ export class PaginatedResDtoTinyUser extends PaginatedResDto {
 
 export class PaginatedResDtoTinyPost extends PaginatedResDto {
   @Expose()
-  @ApiProperty({ type: TinyPostResDto, isArray: true })
+  @ApiProperty({ type: [TinyPostResDto] })
   data: TinyPostResDto[];
 
   constructor(partial: Partial<PaginatedResDtoTinyPost>) {
