@@ -4,6 +4,7 @@ import { CreatePostRequestDto } from '@dto/req/post/create';
 import { UpdatePostRequestDto } from '@dto/req/post/update';
 import { StandardPostResDto } from '@dto/res/post/standard';
 import { NotOwnerException } from '@exceptions/not_owner';
+import { TinyUserResDto } from '@dto/res/user/tiny';
 
 @Injectable()
 export class AuthPostsService {
@@ -21,6 +22,9 @@ export class AuthPostsService {
         src_user_cuid: current_user_cuid,
         // TODO: hashtagsを実装
       },
+      include: {
+        src_user: true,
+      },
     });
 
     let likes_num = await this.prisma.postLike.count({
@@ -37,6 +41,7 @@ export class AuthPostsService {
 
     return new StandardPostResDto({
       ...result,
+      user: new TinyUserResDto(result.src_user),
       likes: likes_num,
       comments: comments_num,
     });
@@ -71,6 +76,9 @@ export class AuthPostsService {
         private: updatePostRequestDto.private,
         // TODO: hashtagsを実装
       },
+      include: {
+        src_user: true,
+      },
     });
 
     let likes_num = await this.prisma.postLike.count({
@@ -87,6 +95,7 @@ export class AuthPostsService {
 
     return new StandardPostResDto({
       ...result,
+      user: new TinyUserResDto(result.src_user),
       likes: likes_num,
       comments: comments_num,
     });

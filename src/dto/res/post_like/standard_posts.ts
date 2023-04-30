@@ -3,11 +3,15 @@ import { TinyPostResDto } from '../post/tiny';
 import { TinyUserResDto } from '../user/tiny';
 import { Expose } from 'class-transformer';
 
-export class StandardPostLikeResDto {
+export class StandardPostLikeResDtoWithTinyPost {
 
   @Expose()
   @ApiProperty()
   cuid: string;
+
+  @Expose()
+  @ApiProperty()
+  post: TinyPostResDto;
 
   @Expose()
   @ApiProperty()
@@ -17,7 +21,7 @@ export class StandardPostLikeResDto {
   @ApiProperty()
   updated_at: Date;
 
-  constructor(partial: Partial<StandardPostLikeResDto>) {
+  constructor(partial: Partial<StandardPostLikeResDtoWithTinyPost>) {
     Object.assign(this, partial);
   }
 

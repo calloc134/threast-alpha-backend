@@ -1,17 +1,16 @@
 import { Controller, Get, Param, Query } from "@nestjs/common";
 import { ProfileByHandleService } from "./profile_by_handle.service";
 import { ApiOkResponse } from "@nestjs/swagger";
-import { TinyUserResDto } from "@dto/res/user/tiny";
 import { PaginatedQueryReqDto } from "@dto/req/query/queryReqDto";
-import { PaginatedResDto } from "@dto/res/wrapper/paginatedResDto";
-import { StandardUserResDto } from "@dto/res/user/standard";
+import { PaginatedResDtoTinyUser } from "@dto/res/wrapper/paginatedResDto";
+import { LimitedUserResDto } from "@dto/res/user/limited";
 
 @Controller('api/users')
 export class ProfileByHandleController {
   constructor(private readonly profileByHandleService: ProfileByHandleService) {}
 
   @Get('')
-  @ApiOkResponse({ type: PaginatedResDto })
+  @ApiOkResponse({ type: PaginatedResDtoTinyUser })
   async getAllUsers(
     @Query() query: PaginatedQueryReqDto
   ) {
@@ -22,7 +21,7 @@ export class ProfileByHandleController {
   }
 
   @Get('@:handle')
-  @ApiOkResponse({ type: StandardUserResDto })
+  @ApiOkResponse({ type: LimitedUserResDto })
   async getUserByHandle(
     @Param('handle') handle: string
   ) {

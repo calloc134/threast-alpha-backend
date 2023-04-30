@@ -14,6 +14,7 @@ import { UpdatePostRequestDto } from '@dto/req/post/update';
 import { Session as SecureSession } from '@fastify/secure-session';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { SuccessResDto } from '@dto/types/success';
+import { StandardPostResDto } from '@dto/res/post/standard';
 
 @Controller('api/posts')
 @SetSessionGuard()
@@ -21,6 +22,7 @@ export class AuthPostsController {
   constructor(private readonly nonAuthPostsService: AuthPostsService) {}
 
   @Post()
+  @ApiOkResponse({ type: StandardPostResDto })
   async createPost(
     @Session() session: SecureSession,
     @Body() createPostRequestDto: CreatePostRequestDto,
@@ -32,6 +34,7 @@ export class AuthPostsController {
   }
 
   @Put(':post_cuid')
+  @ApiOkResponse({ type: StandardPostResDto })
   async updatePostByCuid(
     @Param('post_cuid') post_cuid: string,
     @Session() session: SecureSession,

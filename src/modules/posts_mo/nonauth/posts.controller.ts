@@ -3,7 +3,7 @@ import { NonAuthPostsService } from "./posts.service";
 import { ApiOkResponse } from "@nestjs/swagger";
 import { PaginatedResDtoTinyPost } from "@dto/res/wrapper/paginatedResDto";
 import { PaginatedQueryReqDto } from "@dto/req/query/queryReqDto";
-import { StandardUserResDto } from "@dto/res/user/standard";
+import { StandardPostResDto } from "@dto/res/post/standard";
 
 @Controller('api/posts')
 export class NonAuthPostsController {
@@ -20,10 +20,10 @@ export class NonAuthPostsController {
     );
   }
 
-  @Get(":cuid")
-  @ApiOkResponse({ type: StandardUserResDto })
+  @Get(":post_cuid")
+  @ApiOkResponse({ type: StandardPostResDto })
   async getPostByCuid(
-    @Param('cuid') cuid: string
+    @Param('post_cuid') cuid: string
   ) {
     return await this.postsService.getPostByCuid(cuid);
   }

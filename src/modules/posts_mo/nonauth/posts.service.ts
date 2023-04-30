@@ -3,6 +3,7 @@ import { PrismaService } from "@submodules/prisma_mo/prisma.service";
 import { TinyPostResDto } from "@dto/res/post/tiny";
 import { PaginatedResDtoTinyPost } from "@dto/res/wrapper/paginatedResDto";
 import { StandardPostResDto } from "@dto/res/post/standard";
+import { TinyUserResDto } from "@dto/res/user/tiny";
 
 @Injectable()
 export class NonAuthPostsService {
@@ -11,6 +12,9 @@ export class NonAuthPostsService {
   async getAllPosts(current_page: number, per_page: number) {
     let result = (
       await this.prisma.post.findMany({
+        where: {
+          private: false,
+        },
         skip: (current_page - 1) * per_page,
         take: per_page,
       })
@@ -28,6 +32,9 @@ export class NonAuthPostsService {
       await this.prisma.post.findUniqueOrThrow({
         where: {
           cuid: post_cuid,
+        },
+        include: {
+          src_user: true,
         },
       })
     );
@@ -47,6 +54,7 @@ export class NonAuthPostsService {
 
     return new StandardPostResDto({
       ...result,
+      user: new TinyUserResDto(result.src_user),
       likes: likes_num,
       comments: comments_num,
 

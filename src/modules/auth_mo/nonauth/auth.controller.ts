@@ -25,7 +25,7 @@ export class NonAuthAuthController {
 
   @HttpCode(200)
   @Post("login")
-  @ApiOkResponse({type: SuccessResDto})
+  @ApiOkResponse({type: SuccessResDto })
   @ApiBadRequestResponse({type: TemplateException})
   async login(
     @Body() body: LoginFormReqDto,
