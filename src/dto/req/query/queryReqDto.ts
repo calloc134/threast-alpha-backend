@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsInt, IsOptional, IsPositive } from "class-validator";
 
-export class PagenatedQueryReqDto {
+export class PaginatedQueryReqDto {
   @IsOptional()
   @IsInt()
   @IsPositive()

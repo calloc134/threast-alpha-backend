@@ -16,9 +16,9 @@ import { ApiOkResponse } from '@nestjs/swagger';
 import { SetSessionGuard } from '@guards/session_guard/session.decorator';
 import { UpdateUserReqDto } from '@dto/req/user/update';
 import { UpdateUserPasswordReqDto } from '@dto/req/user_password/update';
-import { PagenatedResDto, PagenatedResDtoTinyPost, PagenatedResDtoTinyUser } from '@dto/wrapper/pagenatedResDto';
+import { PaginatedResDto, PaginatedResDtoTinyPost, PaginatedResDtoTinyUser } from '@dto/res/wrapper/paginatedResDto';
 import { TinyUserResDto } from '@dto/res/user/tiny';
-import { PagenatedQueryReqDto } from '@dto/req/query/queryReqDto';
+import { PaginatedQueryReqDto } from '@dto/req/query/queryReqDto';
 
 @Controller('api/user')
 @SetSessionGuard()
@@ -62,9 +62,9 @@ export class AuthMyProfileController {
   }
 
   @Get('me/posts')
-  @ApiOkResponse({ type: PagenatedResDtoTinyPost })
+  @ApiOkResponse({ type: PaginatedResDtoTinyPost })
   async getMyPosts(
-    @Query() query: PagenatedQueryReqDto,
+    @Query() query: PaginatedQueryReqDto,
     @Session() session: SecureSession,
   ) {
     return await this.authMyProfileService.getMyPosts(
@@ -75,9 +75,9 @@ export class AuthMyProfileController {
   }
 
   @Get('me/followings')
-  @ApiOkResponse({ type: PagenatedResDtoTinyUser })
+  @ApiOkResponse({ type: PaginatedResDtoTinyUser })
   async getMyFollowings(
-    @Query() query: PagenatedQueryReqDto,
+    @Query() query: PaginatedQueryReqDto,
     @Session() session: SecureSession,
   ) {
     return await this.authMyProfileService.getMyFollowings(
@@ -88,9 +88,9 @@ export class AuthMyProfileController {
   }
 
   @Get('me/followers')
-  @ApiOkResponse({ type: PagenatedResDtoTinyUser })
+  @ApiOkResponse({ type: PaginatedResDtoTinyUser })
   async getMyFollowers(
-    @Query() query: PagenatedQueryReqDto,
+    @Query() query: PaginatedQueryReqDto,
     @Session() session: SecureSession,
   ) {
     return await this.authMyProfileService.getMyFollowers(

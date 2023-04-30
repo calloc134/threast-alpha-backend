@@ -3,7 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { TinyUserResDto } from "@dto/res/user/tiny";
 import { TinyPostResDto } from "@dto/res/post/tiny";
 
-export class PagenatedResDto {
+export class PaginatedResDto {
   @Expose()
   @ApiProperty()
   per_page: number;
@@ -15,28 +15,28 @@ export class PagenatedResDto {
   data: unknown
 
 
-  constructor(partial: Partial<PagenatedResDto>) {
+  constructor(partial: Partial<PaginatedResDto>) {
     Object.assign(this, partial);
   }
 }
 
-export class PagenatedResDtoTinyUser extends PagenatedResDto {
+export class PaginatedResDtoTinyUser extends PaginatedResDto {
   @Expose()
   @ApiProperty({ type: TinyUserResDto, isArray: true })
   data: TinyUserResDto[];
 
-  constructor(partial: Partial<PagenatedResDtoTinyUser>) {
+  constructor(partial: Partial<PaginatedResDtoTinyUser>) {
     super(partial);
     Object.assign(this, partial);
   }
 }
 
-export class PagenatedResDtoTinyPost extends PagenatedResDto {
+export class PaginatedResDtoTinyPost extends PaginatedResDto {
   @Expose()
   @ApiProperty({ type: TinyPostResDto, isArray: true })
   data: TinyPostResDto[];
 
-  constructor(partial: Partial<PagenatedResDtoTinyPost>) {
+  constructor(partial: Partial<PaginatedResDtoTinyPost>) {
     super(partial);
     Object.assign(this, partial);
   }

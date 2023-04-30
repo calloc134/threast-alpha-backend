@@ -5,7 +5,7 @@ import { PasswordMismatchException } from '@exceptions/password_mismatch';
 import { Injectable, Session } from '@nestjs/common';
 import { PrismaService } from '@submodules/prisma_mo/prisma.service';
 import { hash, verify } from 'argon2';
-import { PagenatedResDto, PagenatedResDtoTinyPost, PagenatedResDtoTinyUser } from '@dto/wrapper/pagenatedResDto';
+import { PaginatedResDto, PaginatedResDtoTinyPost, PaginatedResDtoTinyUser } from '@dto/res/wrapper/paginatedResDto';
 import { TinyUserResDto } from '@dto/res/user/tiny';
 import { TinyPostResDto } from '@dto/res/post/tiny';
 
@@ -92,7 +92,7 @@ export class AuthMyProfileService {
       })
     ).map((post) => new TinyPostResDto(post));
 
-    return new PagenatedResDtoTinyPost({
+    return new PaginatedResDtoTinyPost({
       current_page: current_page,
       per_page: per_page,
       data: result,
@@ -119,9 +119,7 @@ export class AuthMyProfileService {
       })
     ).map((user) => new TinyUserResDto(user));
 
-    console.log(result);
-
-    return new PagenatedResDtoTinyUser({
+    return new PaginatedResDtoTinyUser({
       current_page,
       per_page,
       data: result,
@@ -144,7 +142,7 @@ export class AuthMyProfileService {
       })
     ).map((user) => new TinyUserResDto(user));
 
-    return new PagenatedResDtoTinyUser({
+    return new PaginatedResDtoTinyUser({
       current_page: current_page,
       per_page: per_page,
       data: result,
