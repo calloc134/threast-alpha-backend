@@ -5,7 +5,10 @@ import { PasswordMismatchException } from '@exceptions/password_mismatch';
 import { Injectable, Session } from '@nestjs/common';
 import { PrismaService } from '@submodules/prisma_mo/prisma.service';
 import { hash, verify } from 'argon2';
-import { PaginatedResDto, PaginatedResDtoTinyPost, PaginatedResDtoTinyUser } from '@dto/res/wrapper/paginatedResDto';
+import {
+  PaginatedResDtoTinyPost,
+  PaginatedResDtoTinyUser,
+} from '@dto/res/wrapper/paginatedResDto';
 import { TinyUserResDto } from '@dto/res/user/tiny';
 import { TinyPostResDto } from '@dto/res/post/tiny';
 
@@ -80,8 +83,12 @@ export class AuthMyProfileService {
 
     return new StandardUserResDto(result);
   }
-  
-  async getMyPosts(current_user_cuid: string, current_page: number, per_page: number) {
+
+  async getMyPosts(
+    current_user_cuid: string,
+    current_page: number,
+    per_page: number,
+  ) {
     let result = (
       await this.prisma.post.findMany({
         where: {
@@ -104,15 +111,16 @@ export class AuthMyProfileService {
     current_page: number,
     per_page: number,
   ) {
-    let result = (
-      // current_user_cuidのユーザにフォローされているユーザを取得
+    // current_user_cuidのユーザにフォローされているユーザを取得
+    let result = 
+    (
       await this.prisma.user.findMany({
         where: {
           followed_by: {
             some: {
               src_user_cuid: current_user_cuid,
-            }
-          }
+            },
+          },
         },
         skip: (current_page - 1) * per_page,
         take: per_page,
@@ -126,9 +134,14 @@ export class AuthMyProfileService {
     });
   }
 
-  async getMyFollowers(current_user_cuid: string, current_page: number, per_page: number) {
-    let result = (
-      // current_user_cuidのユーザをフォローしているユーザを取得
+  async getMyFollowers(
+    current_user_cuid: string,
+    current_page: number,
+    per_page: number,
+  ) {
+    // current_user_cuidのユーザをフォローしているユーザを取得
+    let result = 
+    (
       await this.prisma.user.findMany({
         where: {
           followings: {
@@ -170,5 +183,4 @@ export class AuthMyProfileService {
 
     return new TinyUserResDto(result['dst_user']);
   }
-
 }

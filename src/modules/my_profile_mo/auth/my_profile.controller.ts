@@ -20,7 +20,7 @@ import { PaginatedResDto, PaginatedResDtoTinyPost, PaginatedResDtoTinyUser } fro
 import { TinyUserResDto } from '@dto/res/user/tiny';
 import { PaginatedQueryReqDto } from '@dto/req/query/queryReqDto';
 
-@Controller('api/user')
+@Controller('api/users')
 @SetSessionGuard()
 export class AuthMyProfileController {
   constructor(private readonly authMyProfileService: AuthMyProfileService) {}
