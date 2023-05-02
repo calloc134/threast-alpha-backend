@@ -5,6 +5,8 @@ import { TinyPostResDto } from "@dto/res/post/tiny";
 import { StandardPostLikeResDto } from "../post_like/standard";
 import { StandardPostLikeResDtoWithTinyUser } from "../post_like/standard_users";
 import { StandardPostLikeResDtoWithTinyPost } from "../post_like/standard_posts";
+import { StandardPostCommentResDtoWithTinyUser } from "../post_comment/standard_users";
+import { TinyHashtagResDto } from "../hashtag/tiny";
 
 export class PaginatedResDto {
   @Expose()
@@ -73,6 +75,28 @@ export class PaginatedResDtoStandardPostLikeWithTinyPost extends PaginatedResDto
   data: StandardPostLikeResDtoWithTinyPost[];
 
   constructor(partial: Partial<PaginatedResDtoStandardPostLikeWithTinyPost>) {
+    super(partial);
+    Object.assign(this, partial);
+  }
+}
+
+export class PaginatedResDtoStandardPostCommentWithTinyUser extends PaginatedResDto {
+  @Expose()
+  @ApiProperty({ type: [StandardPostLikeResDtoWithTinyUser] })
+  data: StandardPostLikeResDtoWithTinyUser[];
+
+  constructor(partial: Partial<PaginatedResDtoStandardPostCommentWithTinyUser>) {
+    super(partial);
+    Object.assign(this, partial);
+  }
+}
+
+export class PaginatedResDtoTinyHashtag extends PaginatedResDto {
+  @Expose()
+  @ApiProperty({ type: [TinyHashtagResDto] })
+  data: TinyHashtagResDto[];
+
+  constructor(partial: Partial<PaginatedResDtoTinyHashtag>) {
     super(partial);
     Object.assign(this, partial);
   }

@@ -1,6 +1,6 @@
 import { SessionGuard } from "./session.guard"
 import { ApiCookieAuth, ApiUnauthorizedResponse } from '@nestjs/swagger';
-import { TemplateException } from "@dto/types/exception"
+import { TemplateException } from "@dto/types/exception.type"
 import { applyDecorators, UseGuards } from "@nestjs/common";
 
 export const SetSessionGuard = () => {

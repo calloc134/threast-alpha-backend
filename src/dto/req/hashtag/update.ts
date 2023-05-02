@@ -6,13 +6,6 @@ export class UpdateHashtagReqDto {
   @IsOptional()
   @IsString()
   @MinLength(1)
-  @MaxLength(20)
-  @ApiProperty({ required: false })
-  name?: string;
-
-  @IsOptional()
-  @IsString()
-  @MinLength(1)
   @MaxLength(100)
   @ApiProperty({ required: false })
   description?: string;

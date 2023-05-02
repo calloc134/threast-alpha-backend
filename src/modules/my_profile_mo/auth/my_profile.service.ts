@@ -1,14 +1,11 @@
 import { UpdateUserReqDto } from '@dto/req/user/update';
 import { UpdateUserPasswordReqDto } from '@dto/req/user_password/update';
 import { StandardUserResDto } from '@dto/res/user/standard';
-import { PasswordMismatchException } from '@exceptions/password_mismatch';
+import { PasswordMismatchException } from '@exceptions/password_mismatch.exception';
 import { Injectable, Session } from '@nestjs/common';
 import { PrismaService } from '@submodules/prisma_mo/prisma.service';
 import { hash, verify } from 'argon2';
-import {
-  PaginatedResDtoTinyPost,
-  PaginatedResDtoTinyUser,
-} from '@dto/res/wrapper/paginatedResDto';
+import { PaginatedResDtoTinyPost, PaginatedResDtoTinyUser } from '@dto/res/wrapper/paginatedResDto';
 import { TinyUserResDto } from '@dto/res/user/tiny';
 import { TinyPostResDto } from '@dto/res/post/tiny';
 
@@ -17,6 +14,7 @@ export class AuthMyProfileService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getMe(current_user_cuid: string) {
+    // cuidに相当するユーザを取得 存在しない場合は例外になるはず
     let result = await this.prisma.user.findUniqueOrThrow({
       where: {
         cuid: current_user_cuid,
@@ -26,10 +24,7 @@ export class AuthMyProfileService {
     return new StandardUserResDto(result);
   }
 
-  async updateMe(
-    current_user_cuid: string,
-    updateUserReqDto: UpdateUserReqDto,
-  ) {
+  async updateMe(current_user_cuid: string, updateUserReqDto: UpdateUserReqDto) {
     let result = await this.prisma.user.update({
       where: {
         cuid: current_user_cuid,
@@ -55,22 +50,14 @@ export class AuthMyProfileService {
     };
   }
 
-  async updateMyPassword(
-    current_user_cuid: string,
-    updateUserPasswordReqDto: UpdateUserPasswordReqDto,
-  ) {
+  async updateMyPassword(current_user_cuid: string, updateUserPasswordReqDto: UpdateUserPasswordReqDto) {
     let current_password = await this.prisma.user.findUniqueOrThrow({
       where: {
         cuid: current_user_cuid,
       },
     });
 
-    if (
-      !(await verify(
-        current_password.password,
-        updateUserPasswordReqDto.old_password,
-      ))
-    ) {
+    if (!(await verify(current_password.password, updateUserPasswordReqDto.old_password))) {
       throw new PasswordMismatchException();
     }
 
@@ -86,11 +73,7 @@ export class AuthMyProfileService {
     return new StandardUserResDto(result);
   }
 
-  async getMyPosts(
-    current_user_cuid: string,
-    current_page: number,
-    per_page: number,
-  ) {
+  async getMyPosts(current_user_cuid: string, current_page: number, per_page: number) {
     let result = (
       await this.prisma.post.findMany({
         where: {
@@ -108,14 +91,9 @@ export class AuthMyProfileService {
     });
   }
 
-  async getMyFollowings(
-    current_user_cuid: string,
-    current_page: number,
-    per_page: number,
-  ) {
+  async getMyFollowings(current_user_cuid: string, current_page: number, per_page: number) {
     // current_user_cuidのユーザにフォローされているユーザを取得
-    let result = 
-    (
+    let result = (
       await this.prisma.user.findMany({
         where: {
           followed_by: {
@@ -136,14 +114,9 @@ export class AuthMyProfileService {
     });
   }
 
-  async getMyFollowers(
-    current_user_cuid: string,
-    current_page: number,
-    per_page: number,
-  ) {
+  async getMyFollowers(current_user_cuid: string, current_page: number, per_page: number) {
     // current_user_cuidのユーザをフォローしているユーザを取得
-    let result = 
-    (
+    let result = (
       await this.prisma.user.findMany({
         where: {
           followings: {

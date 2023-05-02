@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "@submodules/prisma_mo/prisma.service";
-import { TinyUserResDto } from "@dto/res/user/tiny";
-import { TinyPostResDto } from "@dto/res/post/tiny";
-import { PaginatedResDtoTinyPost, PaginatedResDtoTinyUser } from "@dto/res/wrapper/paginatedResDto";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '@submodules/prisma_mo/prisma.service';
+import { TinyUserResDto } from '@dto/res/user/tiny';
+import { TinyPostResDto } from '@dto/res/post/tiny';
+import { PaginatedResDtoTinyPost, PaginatedResDtoTinyUser } from '@dto/res/wrapper/paginatedResDto';
 
 @Injectable()
 export class AuthProfileByHandleService {
@@ -17,7 +17,7 @@ export class AuthProfileByHandleService {
             some: {
               src_user: {
                 handle: handle,
-              }
+              },
             },
           },
         },
@@ -25,7 +25,7 @@ export class AuthProfileByHandleService {
         take: per_page,
       })
     ).map((user) => new TinyUserResDto(user));
-    
+
     return new PaginatedResDtoTinyUser({
       current_page: current_page,
       per_page: per_page,
@@ -34,7 +34,6 @@ export class AuthProfileByHandleService {
   }
 
   async getUserFollowersByHandle(handle: string, current_page: number, per_page: number) {
-
     // handleのユーザが終点のフォローがfollowingsにあるユーザを取得
     let result = (
       await this.prisma.user.findMany({
@@ -43,14 +42,13 @@ export class AuthProfileByHandleService {
             some: {
               dst_user: {
                 handle: handle,
-              }
+              },
             },
           },
         },
         skip: (current_page - 1) * per_page,
         take: per_page,
       })
-
     ).map((user) => new TinyUserResDto(user));
 
     return new PaginatedResDtoTinyUser({
@@ -67,6 +65,7 @@ export class AuthProfileByHandleService {
           src_user: {
             handle: handle,
           },
+          // 公開されている記事のみを取得
           private: false,
         },
         skip: (current_page - 1) * per_page,

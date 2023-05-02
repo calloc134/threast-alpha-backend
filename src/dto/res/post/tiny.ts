@@ -12,6 +12,10 @@ export class TinyPostResDto {
   @ApiProperty()
   title: string;
 
+  @Expose()
+  @ApiProperty()
+  private: boolean;
+
   constructor(partial: Partial<TinyPostResDto>) {
     Object.assign(this, partial);
   }

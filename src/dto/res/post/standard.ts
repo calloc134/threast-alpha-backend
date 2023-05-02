@@ -27,12 +27,15 @@ export class StandardPostResDto {
 
   @Expose()
   @ApiProperty()
+  private: boolean;
+
+  @Expose()
+  @ApiProperty()
   user: TinyUserResDto;
 
-  // TODO: Add hashtags
-  // @Expose()
-  // @ApiProperty({ type: [TinyHashtagResDto]})
-  // hashtags: TinyHashtagResDto[];
+  @Expose()
+  @ApiProperty({ type: [TinyHashtagResDto]})
+  hashtags: TinyHashtagResDto[];
 
   @Expose()
   @ApiProperty()

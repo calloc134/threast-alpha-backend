@@ -2,7 +2,7 @@ import { applyDecorators, createParamDecorator, SetMetadata, UseGuards } from '@
 import { Role } from '@prisma/client';
 import { RoleGuard } from './role.guard';
 import { ApiForbiddenResponse, ApiCookieAuth, ApiSecurity } from '@nestjs/swagger';
-import { TemplateException } from '@dto/types/exception';
+import { TemplateException } from '@dto/types/exception.type';
 
 // ロール指定用のデコレータ
 export const SetRole = (...roles: Role[]) => SetMetadata('roles', roles);

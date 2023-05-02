@@ -3,27 +3,48 @@ import { PrismaService } from '@submodules/prisma_mo/prisma.service';
 import { CreatePostRequestDto } from '@dto/req/post/create';
 import { UpdatePostRequestDto } from '@dto/req/post/update';
 import { StandardPostResDto } from '@dto/res/post/standard';
-import { NotOwnerException } from '@exceptions/not_owner';
+import { NotOwnerException } from '@exceptions/not_owner.exception';
 import { TinyUserResDto } from '@dto/res/user/tiny';
+import { ItemNotFoundException } from '@exceptions/item_not_found.exception';
+import { StandardHashtagResDto } from '@dto/res/hashtag/standard';
+import { TinyHashtagResDto } from '@dto/res/hashtag/tiny';
 
 @Injectable()
 export class AuthPostsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createPost(
-    current_user_cuid: string,
-    createPostRequestDto: CreatePostRequestDto,
-  ) {
+  async createPost(current_user_cuid: string, createPostRequestDto: CreatePostRequestDto) {
+
+    // ハッシュタグが全て存在するかを確認
+    let hashtags = await this.prisma.hashTag.findMany({
+      where: {
+        name: {
+          in: createPostRequestDto.hashtags,
+        },
+      },
+    });
+
+    if (hashtags.length != createPostRequestDto.hashtags.length) {
+      throw new ItemNotFoundException();
+    }
+
     let result = await this.prisma.post.create({
       data: {
         title: createPostRequestDto.title,
         body: createPostRequestDto.body,
         private: createPostRequestDto.private,
         src_user_cuid: current_user_cuid,
-        // TODO: hashtagsを実装
+        hashtags: {
+          connect: createPostRequestDto.hashtags.map((hashtag) => {
+            return {
+              name: hashtag,
+            };
+          }),
+        }
       },
       include: {
         src_user: true,
+        hashtags: true
       },
     });
 
@@ -42,16 +63,13 @@ export class AuthPostsService {
     return new StandardPostResDto({
       ...result,
       user: new TinyUserResDto(result.src_user),
+      hashtags: result.hashtags.map((hashtag) => new TinyHashtagResDto(hashtag)),
       likes: likes_num,
       comments: comments_num,
     });
   }
 
-  async updatePostByCuid(
-    current_user_cuid: string,
-    post_cuid: string,
-    updatePostRequestDto: UpdatePostRequestDto,
-  ) {
+  async updatePostByCuid(current_user_cuid: string, post_cuid: string, updatePostRequestDto: UpdatePostRequestDto) {
     // 投稿者が自分であることを確認
     let post = await this.prisma.post.findUniqueOrThrow({
       where: {
@@ -66,6 +84,21 @@ export class AuthPostsService {
       throw new NotOwnerException();
     }
 
+    // もしハッシュタグの指定があれば、ハッシュタグが全て存在するかを確認
+    if (updatePostRequestDto.hashtags) {
+      let hashtags = await this.prisma.hashTag.findMany({
+        where: {
+          name: {
+            in: updatePostRequestDto.hashtags,
+          },
+        },
+      });
+
+      if (hashtags.length != updatePostRequestDto.hashtags.length) {
+        throw new ItemNotFoundException();
+      }
+    }
+
     let result = await this.prisma.post.update({
       where: {
         cuid: post_cuid,
@@ -74,10 +107,18 @@ export class AuthPostsService {
         title: updatePostRequestDto.title,
         body: updatePostRequestDto.body,
         private: updatePostRequestDto.private,
-        // TODO: hashtagsを実装
+        // 三項演算子で分岐 hashtagsがundefinedの場合は何もしない
+        hashtags: updatePostRequestDto.hashtags ? {
+          set: updatePostRequestDto.hashtags.map((hashtag) => {
+            return {
+              name: hashtag,
+            };
+          }),  
+        } : undefined,
       },
       include: {
         src_user: true,
+        hashtags: true,
       },
     });
 
@@ -96,6 +137,7 @@ export class AuthPostsService {
     return new StandardPostResDto({
       ...result,
       user: new TinyUserResDto(result.src_user),
+      hashtags: result.hashtags.map((hashtag) => new TinyHashtagResDto(hashtag)),
       likes: likes_num,
       comments: comments_num,
     });
@@ -123,8 +165,7 @@ export class AuthPostsService {
     });
 
     return {
-      success: true
-    }
-
+      success: true,
+    };
   }
 }

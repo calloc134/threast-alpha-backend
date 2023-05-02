@@ -1,4 +1,4 @@
-import { SessionNotFoundException } from '@exceptions/session_not_found';
+import { SessionNotFoundException } from '@exceptions/session_not_found.exception';
 
 export class SessionGuardService {
   constructor() {}

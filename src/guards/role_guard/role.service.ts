@@ -1,4 +1,4 @@
-import { RolePermissionException } from "@exceptions/role_permission";
+import { RolePermissionException } from "@exceptions/role_permission.exception";
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "@submodules/prisma_mo/prisma.service";
 
@@ -13,7 +13,7 @@ export class RoleGuardService {
       throw new RolePermissionException();
     }
 
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUniqueOrThrow({
       where: { cuid: user_cuid },
       select: { role: true },
     });

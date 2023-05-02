@@ -6,6 +6,8 @@ import { Module } from '@nestjs/common';
 import { NonAuthPostsModule } from '@modules/posts_mo/nonauth/posts.module';
 import { AuthPostsModule } from '@modules/posts_mo/auth/posts.module';
 import { AuthPostLikesModule } from '@modules/post_likes_mo/auth/post_likes.module';
+import { AuthPostCommentsModule } from '@modules/post_comments_mo/auth/post_comments.module';
+import { AuthHashtagsModule } from '@modules/hashtags_mo/auth/hashtags.module';
 
 @Module({
   imports: [
@@ -15,7 +17,9 @@ import { AuthPostLikesModule } from '@modules/post_likes_mo/auth/post_likes.modu
     AuthProfileByHandleModule,
     NonAuthPostsModule,
     AuthPostsModule,
-    AuthPostLikesModule
+    AuthHashtagsModule,
+    AuthPostLikesModule,
+    AuthPostCommentsModule,
   ],
 })
 export class AppModule {}

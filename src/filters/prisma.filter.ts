@@ -3,8 +3,8 @@ import { BaseExceptionFilter } from "@nestjs/core";
 import {
     Prisma,
 } from "@prisma/client";
-import { ItemAlreadyExistException } from "@exceptions/item_already_exist";
-import { ItemNotFoundException } from "@exceptions/item_not_found";
+import { ItemAlreadyExistException } from "@exceptions/item_already_exist.exception";
+import { ItemNotFoundException } from "@exceptions/item_not_found.exception";
 
 @Catch(Prisma.PrismaClientKnownRequestError, Prisma.NotFoundError)
 export class PrismaExceptionFilter extends BaseExceptionFilter {
